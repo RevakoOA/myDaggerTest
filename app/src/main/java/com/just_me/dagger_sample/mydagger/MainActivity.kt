@@ -23,11 +23,12 @@ class MainActivity : AppCompatActivity(), Contract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("MainActivity", "onCreate called")
-        val mainComponent = DaggerMainComponent.create()
-        activityComponent = mainComponent.createActivityComponent(ActivityModule(this))
+        val appComponent = (application as MyApplication).appComponent
+        activityComponent = appComponent.createActivityComponent(ActivityModule(this))
         activityComponent.pokeActivity(this)
         setContentView(R.layout.activity_main)
         tvText.text = mText.content + '\n' + mText1.content + '\n' + "presenter: $presenter" +
-                '\n' + "this: $this" + " , equality: ${(presenter as PresenterImpl).view.equals(this)}"
+                '\n' + "this: $this" + " , equality: ${(presenter as PresenterImpl).view.equals(this)}" +
+                '\n' + "appComponent: $appComponent" + '\n' + "activityComponent: $activityComponent"
     }
 }
